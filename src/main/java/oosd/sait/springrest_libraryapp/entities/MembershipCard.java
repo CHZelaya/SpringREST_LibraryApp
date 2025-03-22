@@ -27,7 +27,7 @@ public class MembershipCard {
     @DateTimeFormat(pattern ="yyyy-MM-dd")
     Date expiryDate;
 
-    @OneToOne(mappedBy = "library_member")
+    @OneToOne(mappedBy = "membershipCard")
     private LibraryMember libraryMember;
 
 
