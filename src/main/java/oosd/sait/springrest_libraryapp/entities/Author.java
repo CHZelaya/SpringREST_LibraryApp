@@ -13,9 +13,9 @@ public class Author {
     private Long id;
 
     @NotNull
-    String name;
+    private String name;
 
-    String biography;
+    private String biography;
 
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;

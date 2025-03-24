@@ -14,14 +14,14 @@ public class Book {
 
     @NotNull
     @Column(unique = true)
-    String title;
+    private String title;
 
     @NotNull
     @Column(unique = true)
-    String isbn;
+    private String isbn;
 
     @NotNull
-    int publicationYear;
+    private int publicationYear;
 
     //Many to Many with Author
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
@@ -30,7 +30,7 @@ public class Book {
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
-    List<Author> authors;
+    private List<Author> authors;
 
     //One to many with BorrowRecord
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)

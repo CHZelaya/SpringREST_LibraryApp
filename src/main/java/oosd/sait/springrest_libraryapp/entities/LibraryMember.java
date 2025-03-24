@@ -19,15 +19,15 @@ public class LibraryMember {
     private Long id;
 
     @NotNull
-    String name;
+    private String name;
 
     @Column(unique = true)
     @NotNull
-    String email;
+    private String email;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
-    Date membershipDate;
+    private Date membershipDate;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name ="membershipCard_id", referencedColumnName = "id")

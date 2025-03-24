@@ -45,10 +45,10 @@ public class BookService {
      * READ
      * Fetches a book from the repository based on the provided book ID.
      * @return The information on the book (title, isbn, publication year, author)
-     * @throws RuntimeException if the book is not found.
+     * @throws BookNotFoundException if the book is not found.
      */
     public Book getBookById(long id) {
-        return bookRepo.findById(id).orElseThrow(() -> new RuntimeException("Book not found"));
+        return bookRepo.findById(id).orElseThrow(() -> new BookNotFoundException("Book ID: " + id));
     }
 
     /**
@@ -58,16 +58,18 @@ public class BookService {
      * which is determined by checking the borrow ID.
      * @param id The id provided by the user
      * @param book The Book object in question
-     * @throws RuntimeException if the book is not found.
+     * @throws BookNotFoundException if the book is not found.
      */
     public void updateBook(long id,Book book) {
         Book existingBook = bookRepo.findById(id).orElse(null);
         if (existingBook != null) {
             existingBook.setTitle(book.getTitle());
+            existingBook.setIsbn(book.getIsbn());
+            existingBook.setPublicationYear(book.getPublicationYear());
             existingBook.setAuthors(book.getAuthors());
             bookRepo.save(existingBook);
         } else {
-            throw new RuntimeException("Book not found");
+            throw new BookNotFoundException("Book ID:" + id);
         }
 
     }
@@ -89,9 +91,9 @@ public class BookService {
         if (existingBook != null && existingBorrowRecord == null) {
             bookRepo.delete(existingBook);
         } else if (existingBook == null) {
-            throw new BookNotFoundException("Book not found");
+            throw new BookNotFoundException("Book ID:" + bookId);
         } else {
-            throw new BookInUseException("Book is currently in use, and cannot be deleted");
+            throw new BookInUseException("Book ID " + bookId + " is currently in use");
         }
     }
 

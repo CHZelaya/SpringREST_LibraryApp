@@ -15,17 +15,17 @@ public class MembershipCard {
 
     @Column(unique = true)
     @NotNull
-    String cardNumber;
+    private String cardNumber;
 
     @Column(unique = false)
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    Date issueDate;
+    private Date issueDate;
 
     @Column(unique = false)
     @NotNull
     @DateTimeFormat(pattern ="yyyy-MM-dd")
-    Date expiryDate;
+    private Date expiryDate;
 
     @OneToOne(mappedBy = "membershipCard")
     private LibraryMember libraryMember;
