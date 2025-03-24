@@ -24,7 +24,12 @@ public class Book {
     int publicationYear;
 
     //Many to Many with Author
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
     List<Author> authors;
 
     //One to many with BorrowRecord
