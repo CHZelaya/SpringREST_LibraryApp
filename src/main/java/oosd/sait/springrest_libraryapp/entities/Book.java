@@ -36,13 +36,13 @@ public class Book {
     @OneToMany(mappedBy = "book", cascade = CascadeType.ALL)
     private List<BorrowRecord> borrowRecordList = new ArrayList<>();
 
-    public Book(String title, String isbn, int publicationYear, List<Author> authors, List<BorrowRecord> borrowRecordList) {
-        this.title = title;
-        this.isbn = isbn;
-        this.publicationYear = publicationYear;
-        this.authors = authors;
-        this.borrowRecordList = borrowRecordList;
-    }
+//    public Book(String title, String isbn, int publicationYear, List<Author> authors, List<BorrowRecord> borrowRecordList) {
+//        this.title = title;
+//        this.isbn = isbn;
+//        this.publicationYear = publicationYear;
+//        this.authors = authors;
+//        this.borrowRecordList = borrowRecordList;
+//    }
 
     public Book() {
     }

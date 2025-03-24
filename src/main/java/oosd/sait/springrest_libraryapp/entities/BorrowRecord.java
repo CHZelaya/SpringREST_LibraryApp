@@ -29,13 +29,13 @@ public class BorrowRecord {
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Book book;
 
-    public BorrowRecord(LibraryMember libraryMember, Date borrowDate, Date returnDate, LibraryMember borrower, Book book) {
-        this.libraryMember = libraryMember;
-        this.borrowDate = borrowDate;
-        this.returnDate = returnDate;
-        this.borrower = borrower;
-        this.book = book;
-    }
+//    public BorrowRecord(LibraryMember libraryMember, Date borrowDate, Date returnDate, LibraryMember borrower, Book book) {
+//        this.libraryMember = libraryMember;
+//        this.borrowDate = borrowDate;
+//        this.returnDate = returnDate;
+//        this.borrower = borrower;
+//        this.book = book;
+//    }
 
     public BorrowRecord() {
     }

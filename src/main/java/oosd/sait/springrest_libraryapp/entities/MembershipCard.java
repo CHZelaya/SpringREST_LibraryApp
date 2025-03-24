@@ -31,12 +31,12 @@ public class MembershipCard {
     private LibraryMember libraryMember;
 
 
-    public MembershipCard(String cardNumber, Date issueDate, Date expiryDate, LibraryMember libraryMember) {
-        this.cardNumber = cardNumber;
-        this.issueDate = issueDate;
-        this.expiryDate = expiryDate;
-        this.libraryMember = libraryMember;
-    }
+//    public MembershipCard(String cardNumber, Date issueDate, Date expiryDate, LibraryMember libraryMember) {
+//        this.cardNumber = cardNumber;
+//        this.issueDate = issueDate;
+//        this.expiryDate = expiryDate;
+//        this.libraryMember = libraryMember;
+//    }
 
     public MembershipCard() {
     }

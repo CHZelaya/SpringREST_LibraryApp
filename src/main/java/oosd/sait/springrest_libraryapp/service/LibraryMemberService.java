@@ -1,9 +1,11 @@
 package oosd.sait.springrest_libraryapp.service;
 
 
-import oosd.sait.springrest_libraryapp.entities.BorrowRecord;
+import jakarta.transaction.Transactional;
 import oosd.sait.springrest_libraryapp.entities.LibraryMember;
 
+import oosd.sait.springrest_libraryapp.exceptions.InUseException;
+import oosd.sait.springrest_libraryapp.exceptions.NotFoundException;
 import oosd.sait.springrest_libraryapp.repository.BorrowRecordRepo;
 import oosd.sait.springrest_libraryapp.repository.LibraryMemberRepo;
 import oosd.sait.springrest_libraryapp.repository.MembershipCardRepo;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class LibraryMemberService {
     private final LibraryMemberRepo libraryMemberRepo;
@@ -23,6 +26,10 @@ public class LibraryMemberService {
         this.membershipCardRepo = membershipCardRepo;
     }
 
+    /**
+     * A method that will create a LibraryMember.
+     * @param libraryMember
+     */
     public void createLibraryMember(LibraryMember libraryMember) {
         libraryMemberRepo.save(libraryMember);
     }
@@ -39,46 +46,49 @@ public class LibraryMemberService {
      * A method that will return a single Library Members, identified by their ID
      * @param id
      * @return A single Library Member
+     * @throws NotFoundException if no LibraryMember with the given ID exists.
      */
     public LibraryMember getLibraryMember(long id) {
-        return libraryMemberRepo.findById(id).orElseThrow(() -> new RuntimeException("LibraryMember not found"));
+        return libraryMemberRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Library Member not found"));
     }
 
     /**
-     * The method responsible for updating a Library Member fetched by ID
-     * @param libraryMember object, id
-     * @return Returns the updated information of the LibraryMember and saves it to the DB.
+     * The method responsible for updating a Library Member fetched by ID.
+     * This method updates the details of an existing LibraryMember, including
+     * their name, email, membership card, and borrow records.
+     *
+     * @param id The ID of the LibraryMember to be updated.
+     * @param libraryMember An object containing the updated information for the LibraryMember.
+     * @return Returns the updated LibraryMember object after saving it to the database.
+     * @throws NotFoundException if no LibraryMember with the given ID exists.
      */
     public LibraryMember updateLibraryMember(long id, LibraryMember libraryMember) {
-        LibraryMember existingMember = libraryMemberRepo.findById(id).orElse(null);
-        if (existingMember != null) {
+        LibraryMember existingMember = libraryMemberRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "LibraryMember not found"));
             existingMember.setName(libraryMember.getName());
             existingMember.setEmail(libraryMember.getEmail());
-        }
-        assert existingMember != null;
-        return libraryMemberRepo.save(existingMember);
+            existingMember.setMembershipCard(libraryMember.getMembershipCard());
+            existingMember.getBorrowRecords().clear();
+            existingMember.getBorrowRecords().addAll(libraryMember.getBorrowRecords());
+            return libraryMemberRepo.save(existingMember);
     }
 
     /**
-     * The method responsible for deleting a LibraryMember from the DB, checks to see that the Library Member has no
-     * borrowed books before deleting, if a record of borrowed books are found, informs the user that the Library member
-     * must finish returning all books before the account can be closed.
-     * @param libraryMemberId
-     * @param borrowRecordId
+     * The method responsible for deleting a LibraryMember from the database.
+     * Before deletion, it checks if the LibraryMember has any borrowed books.
+     * If there are borrowed books, an exception is thrown, informing the user
+     * that the LibraryMember must return all books before the account can be closed.
+     *
+     * @param libraryMemberId The ID of the LibraryMember to be deleted.
+     * @throws NotFoundException if no LibraryMember with the given ID exists.
+     * @throws InUseException if the LibraryMember has borrowed books and cannot be deleted.
      */
-    public void deleteLibraryMember(long libraryMemberId,long borrowRecordId) {
-        LibraryMember existingMember = libraryMemberRepo.findById(libraryMemberId).orElse(null);
-        BorrowRecord borrowRecord = borrowRecordRepo.findById(borrowRecordId).orElse(null);
-
-        if (existingMember != null && borrowRecord == null) {
-            libraryMemberRepo.delete(existingMember);
-        } else if (existingMember == null) {
-            throw new RuntimeException("Library Member was not found");
-        } else if (borrowRecord != null) {
-            throw new RuntimeException("Library Member has a record of borrowed books\n" +
-                    "Please return all books before closing account.");
+    public void deleteLibraryMember(long libraryMemberId) {
+        LibraryMember existingMember = libraryMemberRepo.findById(libraryMemberId).orElseThrow(() -> new NotFoundException(libraryMemberId, "LibraryMember not found"));
+        if (!existingMember.getBorrowRecords().isEmpty()){
+            throw new InUseException(libraryMemberId, "Library Member is currently borrowing a book, Please return all books before removing." );
         }
+        libraryMemberRepo.delete(existingMember);
 
     }
 
-}
+} //class

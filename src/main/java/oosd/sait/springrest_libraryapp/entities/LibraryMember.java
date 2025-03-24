@@ -36,13 +36,13 @@ public class LibraryMember {
     @OneToMany(mappedBy = "library_member", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BorrowRecord> borrowRecords = new ArrayList<>();
 
-    public LibraryMember(String name, String email, Date membershipDate, MembershipCard membershipCard, List<BorrowRecord> borrowRecords) {
-        this.name = name;
-        this.email = email;
-        this.membershipDate = membershipDate;
-        this.membershipCard = membershipCard;
-        this.borrowRecords = borrowRecords;
-    }
+//    public LibraryMember(String name, String email, Date membershipDate, MembershipCard membershipCard, List<BorrowRecord> borrowRecords) {
+//        this.name = name;
+//        this.email = email;
+//        this.membershipDate = membershipDate;
+//        this.membershipCard = membershipCard;
+//        this.borrowRecords = borrowRecords;
+//    }
 
     public LibraryMember() {
     }

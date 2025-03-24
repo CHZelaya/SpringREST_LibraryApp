@@ -1,11 +1,14 @@
 package oosd.sait.springrest_libraryapp.service;
 
+import jakarta.transaction.Transactional;
 import oosd.sait.springrest_libraryapp.entities.Author;
+import oosd.sait.springrest_libraryapp.exceptions.NotFoundException;
 import oosd.sait.springrest_libraryapp.repository.AuthorRepo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Transactional
 @Service
 public class AuthorService {
     private final AuthorRepo authorRepo;
@@ -35,7 +38,7 @@ public class AuthorService {
      */
 
     public Author getAuthorById(long id) {
-        return authorRepo.findById(id).orElseThrow(() -> new RuntimeException("Author not found"));
+        return authorRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Author not found"));
     }
 
     /**

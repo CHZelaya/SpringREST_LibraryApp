@@ -2,7 +2,6 @@ package oosd.sait.springrest_libraryapp.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -20,11 +19,11 @@ public class Author {
     @ManyToMany(mappedBy = "authors")
     private List<Book> books;
 
-    public Author(String name, String biography, List<Book> books) {
-        this.name = name;
-        this.biography = biography;
-        this.books = books;
-    }
+//    public Author(String name, String biography, List<Book> books) {
+//        this.name = name;
+//        this.biography = biography;
+//        this.books = books;
+//    }
 
     public Author() {
     }
