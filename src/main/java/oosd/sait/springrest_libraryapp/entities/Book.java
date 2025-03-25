@@ -95,6 +95,15 @@ public class Book {
         this.borrowRecordList = borrowRecordList;
     }
 
+    // Method to check if the book is available for borrowing
+    public boolean isAvailable() {
+        // A book is available if there are no borrow records associated with it
+        if(borrowRecordList == null || borrowRecordList.isEmpty()){
+            return true;
+        }
+        return borrowRecordList.stream().noneMatch(record -> record.getReturnDate() == null);
+    }
+
     @Override
     public String toString() {
         return "Book{" +
