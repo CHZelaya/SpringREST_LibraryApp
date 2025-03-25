@@ -18,15 +18,10 @@ public class AuthorService {
         this.authorRepo = authorRepo;
     }
 
-    /**
-     * Method to grab all the Authors from the DB
-     * @return A list of all the Authors
-     */
-    public List<Author> getAllAuthors() {
-        return authorRepo.findAll();
-    }
+
 
     /**
+     * CREATE
      * The method responsible for saving an Author into the database.
      * This method takes an Author object as input and persists it to the database using the
      * author repository. If the Author already exists, it will be updated; otherwise, a new
@@ -42,11 +37,35 @@ public class AuthorService {
     }
 
     /**
-     * The method responsible for updating an Author fetched by ID.
+     * READ
+     * Method to grab all the Authors from the DB
+     * @return A list of all the Authors
+     */
+    public List<Author> getAllAuthors() {
+        return authorRepo.findAll();
+    }
+
+    /**
+     * READ, One entry
+     * Method to grab an Author by ID
+     * @return An author, selected by their ID
+     */
+
+    public Author getAuthorById(long id) {
+        return authorRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Author not found"));
+    }
+
+    /**
+     * UPDATE
+     * Updates an Author fetched by ID.
      * This method updates the details of an existing Author, including
-     * their name, biography and books written.
-     * @param id
-     * @param author
+     * their name, biography, and books written.
+     *
+     * @param id The ID of the Author to be updated. Must correspond to an existing Author in the database.
+     * @param author An Author object containing the updated details. Only the fields provided will be updated.
+     * @return The updated Author object after saving it to the database.
+     * @throws NotFoundException if the Author cannot be found in the database.
+     *
      */
     public Author updateAuthor(long id,Author author) {
         Author existingAuthor = authorRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Author not found"));
@@ -57,18 +76,14 @@ public class AuthorService {
     }
 
     /**
-     * Method to grab an Author by ID
-     * @return An author, selected by their ID
+     * The method responsible for deleting Authors from the database using their ID.
+     * It checks if the Author has any associated books; if so, it throws an InUseException.
+     * It also verifies if the Author exists in the database; if not, it throws a NotFoundException.
+     * All books associated with the Author must be removed from the database before the Author can be deleted.
+     * @param id The ID of the Author to be deleted. Must exist in the database.
+     * @throws NotFoundException if the Author cannot be found in the database.
+     * @throws InUseException if the Author has any books associated with them in the database.
      */
-
-    public Author getAuthorById(long id) {
-        return authorRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Author not found"));
-    }
-
-    /**
-     * Delete Author selected by ID
-     */
-
     public void deleteAuthor(long id) {
         Author existingAuthor = authorRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Author not found"));
         if (!existingAuthor.getBooks().isEmpty()){

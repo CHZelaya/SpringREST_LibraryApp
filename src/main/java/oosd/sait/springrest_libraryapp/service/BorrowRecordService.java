@@ -63,12 +63,12 @@ public BorrowRecord getBorrowRecordById(Long id) {
  * UPDATE
  */
 
-public void updateBorrowRecord(long id, BorrowRecord borrowRecord) {
-    BorrowRecord existingBorrowRecord = borrowRecordRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Borrow record not found"));
-    existingBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
-    existingBorrowRecord.setBorrower(borrowRecord.getBorrower());
+//public void updateBorrowRecord(long id, BorrowRecord borrowRecord) {
+//    BorrowRecord existingBorrowRecord = borrowRecordRepo.findById(id).orElseThrow(() -> new NotFoundException(id, "Borrow record not found"));
+//    existingBorrowRecord.setBorrowDate(borrowRecord.getBorrowDate());
+//    existingBorrowRecord.setBorrower(borrowRecord.getBorrower());
 
-}
+//}
 
 /**
  * DELETE

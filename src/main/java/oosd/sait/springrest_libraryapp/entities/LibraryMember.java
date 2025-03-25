@@ -15,7 +15,7 @@ public class LibraryMember {
 
     //Properties/Db Columns
     @Id //Primary Key
-            @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -33,7 +33,7 @@ public class LibraryMember {
     @JoinColumn(name ="membershipCard_id", referencedColumnName = "id")
     private MembershipCard membershipCard;
 
-    @OneToMany(mappedBy = "library_member", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "libraryMember", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BorrowRecord> borrowRecords = new ArrayList<>();
 
 //    public LibraryMember(String name, String email, Date membershipDate, MembershipCard membershipCard, List<BorrowRecord> borrowRecords) {

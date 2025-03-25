@@ -2,6 +2,7 @@ package oosd.sait.springrest_libraryapp.entities;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,15 +10,17 @@ import java.util.List;
 @Entity
 public class Book {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
     @Column(unique = true)
+    @Size(min = 1, max = 1000)
     private String title;
 
     @NotNull
     @Column(unique = true)
+    @Size(min = 10, max = 14)
     private String isbn;
 
     @NotNull

@@ -4,6 +4,7 @@ package oosd.sait.springrest_libraryapp.service;
 import jakarta.transaction.Transactional;
 import oosd.sait.springrest_libraryapp.entities.LibraryMember;
 
+import oosd.sait.springrest_libraryapp.entities.MembershipCard;
 import oosd.sait.springrest_libraryapp.exceptions.InUseException;
 import oosd.sait.springrest_libraryapp.exceptions.NotFoundException;
 import oosd.sait.springrest_libraryapp.repository.BorrowRecordRepo;
@@ -11,6 +12,8 @@ import oosd.sait.springrest_libraryapp.repository.LibraryMemberRepo;
 import oosd.sait.springrest_libraryapp.repository.MembershipCardRepo;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -31,6 +34,22 @@ public class LibraryMemberService {
      * @param libraryMember
      */
     public void createLibraryMember(LibraryMember libraryMember) {
+        // Create a new MembershipCard
+//        MembershipCard membershipCard = new MembershipCard();
+//
+//        // Set the issue date to today
+//        membershipCard.setIssueDate(new Loc());
+//
+//        // Set the expiry date to ten years from now
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(membershipCard.getIssueDate());
+//        calendar.add(Calendar.YEAR, 10); // Add 10 years
+//        membershipCard.setExpiryDate(calendar.getTime());
+//
+//        // Assign the MembershipCard to the LibraryMember
+//        libraryMember.setMembershipCard(membershipCard);
+
+        // Save the LibraryMember (MembershipCard will be saved due to cascade)
         libraryMemberRepo.save(libraryMember);
     }
 

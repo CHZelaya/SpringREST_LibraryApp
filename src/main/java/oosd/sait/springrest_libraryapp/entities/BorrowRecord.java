@@ -10,23 +10,23 @@ import java.util.Date;
 @Table(name="borrow_record")
 public class BorrowRecord {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "libraryMember_id")
     private LibraryMember libraryMember;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     @NotNull
+    @Temporal(TemporalType.DATE)
     private Date borrowDate;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @Temporal(TemporalType.DATE)
     private Date returnDate;
 
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private LibraryMember borrower;
-
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Book book;
 
 //    public BorrowRecord(LibraryMember libraryMember, Date borrowDate, Date returnDate, LibraryMember borrower, Book book) {
@@ -64,14 +64,6 @@ public class BorrowRecord {
         this.returnDate = returnDate;
     }
 
-    public LibraryMember getBorrower() {
-        return borrower;
-    }
-
-    public void setBorrower(LibraryMember borrower) {
-        this.borrower = borrower;
-    }
-
     public Book getBook() {
         return book;
     }
@@ -95,7 +87,6 @@ public class BorrowRecord {
                 ", libraryMember=" + libraryMember +
                 ", borrowDate=" + borrowDate +
                 ", returnDate=" + returnDate +
-                ", borrower=" + borrower +
                 ", book=" + book +
                 '}';
     }
